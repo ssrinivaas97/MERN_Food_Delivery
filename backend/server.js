@@ -1,4 +1,5 @@
 import express from "express";
+import path from 'path';
 import cors from "cors";
 import { connectDB } from "./config/db.js";
 import foodRouter from "./routes/foodRouter.js";
@@ -13,6 +14,11 @@ const port = 4000;
 
 // middleware
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 app.use(cors());
 
 app.get("/", (req, res) => {
